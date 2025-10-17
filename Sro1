@@ -1,0 +1,62 @@
+package kz.ektu.bestibek.bakitzhan.sro;
+
+import java.util.ArrayList;
+import java.util.List;
+
+class InvalidAgeException extends Exception {
+    public InvalidAgeException(String message) {
+        super(message);
+    }
+}
+
+class Student {
+    private String fullName;
+    private int studentAge;
+
+    public Student(String fullName, int studentAge) throws InvalidAgeException {
+        if (studentAge < 18) {
+            throw new InvalidAgeException("Ошибка: возраст студента должен быть 18 или больше. Указано: " + studentAge);
+        }
+        this.fullName = fullName;
+        this.studentAge = studentAge;
+    }
+
+    @Override
+    public String toString() {
+        return fullName + " (" + studentAge + " лет)";
+    }
+}
+
+class School {
+    private List<Student> studentList = new ArrayList<>();
+
+    public void addStudent(String fullName, int studentAge) {
+        try {
+            Student student = new Student(fullName, studentAge);
+            studentList.add(student);
+            System.out.println("Студент добавлен: " + student);
+        } catch (InvalidAgeException e) {
+            System.out.println("Не удалось добавить студента: " + e.getMessage());
+        }
+    }
+
+    public void printStudents() {
+        System.out.println("\nСписок студентов:");
+        for (Student student : studentList) {
+            System.out.println("- " + student);
+        }
+    }
+}
+
+public class Sro1 {
+    public static void main(String[] args) {
+        School mySchool = new School();
+
+        mySchool.addStudent("Айжан", 19);
+        mySchool.addStudent("Бахтияр", 17);
+        mySchool.addStudent("Сауле", 20);
+
+        mySchool.printStudents();
+    }
+}
+
