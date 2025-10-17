@@ -1,0 +1,51 @@
+package kz.ektu.bestibek.bakitzhan.sro;
+
+import java.util.HashMap;
+import java.util.Map;
+
+class StudentNotFoundException extends Exception {
+    public StudentNotFoundException(String text) {
+        super(text);
+    }
+}
+
+class LowGradeException extends Exception {
+    public LowGradeException(String text) {
+        super(text);
+    }
+}
+
+public class Sro2 {
+
+    public static void findGrade(Map<String, Integer> studentMarks, String name)
+            throws StudentNotFoundException, LowGradeException {
+        if (!studentMarks.containsKey(name)) {
+            throw new StudentNotFoundException("Студент " + name + " не найден.");
+        }
+        int mark = studentMarks.get(name);
+        if (mark < 50) {
+            throw new LowGradeException("У студента " + name + " низкая оценка: " + mark);
+        }
+        System.out.println("Оценка студента " + name + ": " + mark);
+    }
+
+    public static void main(String[] args) {
+        Map<String, Integer> studentMarks = new HashMap<>();
+        studentMarks.put("Айжан", 85);
+        studentMarks.put("Бахтияр", 45);
+        studentMarks.put("Сауле", 70);
+
+        String[] checkList = {"Айжан", "Бахтияр", "Нурлан"};
+
+        for (String name : checkList) {
+            try {
+                findGrade(studentMarks, name);
+            } catch (StudentNotFoundException err) {
+                System.out.println("Ошибка: " + err.getMessage());
+            } catch (LowGradeException err) {
+                System.out.println("Предупреждение: " + err.getMessage());
+            }
+        }
+    }
+}
+
